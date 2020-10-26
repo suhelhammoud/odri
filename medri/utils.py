@@ -12,73 +12,6 @@ from medri.m_instances import Instances
 
 
 
-# # @np.array_function_dispatch(_unique_dispatcher)
-# def count_labels(item_lines, all_labels):
-#     labels = all_labels[item_lines]
-#     return_index = False
-#     return_inverse = False
-#     axis = None
-#     return_counts = False
-#
-#     labels = np.asanyarray(labels)
-#     # ret = _unique1d(ar, return_index, return_inverse, return_counts)
-#     # return _unpack_tuple(ret)
-#     #
-#     #
-#     # def _unique1d(ar, return_index=False, return_inverse=False,
-#     #               return_counts=False):
-#     """
-#     Find the unique elements of an array, ignoring shape.
-#     """
-#     labels = np.asanyarray(labels).flatten()
-#
-#     labels.sort()
-#     aux = labels
-#     mask = np.empty(aux.shape, dtype=np.bool_)
-#     mask[:1] = True
-#     mask[1:] = aux[1:] != aux[:-1]
-#
-#     ret = (aux[mask],)
-#
-#     # if return_counts:
-#     idx = np.concatenate(np.nonzero(mask) + ([mask.size],))
-#     ret += (np.diff(idx),)
-#     return (ret,)
-
-
-#
-# def extract_items_lines_in_attribute(data_att_values, MISSING=-1):
-#     """
-#
-#     :param data_att_values: np.array one scalar vector, may contain missing data
-#     :param MISSING: int value for missing
-#     :return: (vals, att_lines)
-#         u_vals: a sorted array of unique items
-#         att_lines: list of array indices
-#     """
-#
-#     idx_sort = np.argsort(data_att_values)
-#     sorted_data = data_att_values[idx_sort]
-#     att_vals, idx__start = np.unique(sorted_data, return_index=True)
-#     att_lines = np.split(idx_sort, idx__start[1:])
-#
-#     missing_index = np.where(att_vals == MISSING)[0]  # first value in case of -1
-#     if missing_index.size != 0:
-#         index = missing_index[0]
-#         att_vals = np.delete(att_vals, index)
-#         att_lines.pop(index)
-#     return att_vals, att_lines
-
-#
-# def test_extract_items_lines_in_attribute():
-#     data = np.array([11, 22, 33, 11, 11, -1, 33, 44, 33, 22], dtype=int)
-#     print(f'data.dtype = {data.dtype}')
-#     vals, res = extract_items_lines_in_attribute(data)
-#     print(f'vals = {vals}')
-#     for i in res:
-#         print(i, i.dtype)
-
-
 def extract_items_indexes_in_attribute(
         att: np.array,
         indexes=None,
@@ -302,7 +235,7 @@ def find_best_item_att(inst,
                        available_lines,
                        min_freq=1,
                        labels_weights=None):
-    num_labels = inst.nominal_attributes_label.sz
+    num_labels = inst.nominal_attributes_label.num_items
     all_labels = inst.label_data
     available_atts = np.array(range(inst.num_nominal_atts()))
 

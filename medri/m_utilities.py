@@ -1,27 +1,13 @@
 from log_settings import lg
 import numpy as np
-from numpy import linalg as LA
-# from medri.utils import *
 from medri.arffreader import loadarff
-
-from scipy.stats import entropy
-import matplotlib.pyplot as plt
-
 from medri.m_attribute import MAttribute
 from medri.m_counter import MCounter
 from medri.m_instances import Instances
 
 
-def labels_of_item(lines, all_labels, num_labels):
-    labels = all_labels[lines]
-    vals, counts = np.unique(labels, return_counts=True)
-    result = np.zeros(num_labels, dtype=int)
-    result[vals] = counts
-    return result
-
-
-def lines_to_count_labels(lst_lines, all_labels, num_labels):
-    return np.array([np.array(labels_of_item(lines, all_labels, num_labels))
+def bin_count_labels(lst_lines, all_labels, num_labels):
+    return np.array([np.bincount(all_labels[lines], minlength=num_labels)
                      for lines in lst_lines], dtype=int)
 
 
@@ -64,7 +50,7 @@ def labels_in_att(
 
     item_lines = np.split(sorted_indexes, idx__start[1:])
 
-    item_labels = lines_to_count_labels(
+    item_labels = bin_count_labels(
         lst_lines=item_lines,
         all_labels=all_labels,
         num_labels=num_labels)

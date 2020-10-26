@@ -85,5 +85,4 @@ class MCounter:
         b_att, b_item = self.c_index.att_item(b_index)
         lg.debug(f'b_att={b_att}, b_item={b_item}, b_label={b_label}')
         lg.debug(f'self.att_items = {self.att_items}')
-        # result = self.atts_indexes[b_att], self.att_items[b_att][b_item], b_label
         return b_att, b_item, b_label

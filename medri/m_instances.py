@@ -2,7 +2,6 @@ import numpy as np
 from medri.m_attribute import MAttribute
 
 
-# by suhel
 def _nominal_numeric(_meta):
     names = np.array(_meta.names())
     types = np.array(_meta.types())
@@ -26,7 +25,7 @@ class Instances:
         return np.array([MAttribute(n, a) for n, a in _nominal_attributes])
 
     def num_labels(self):
-        return self.nominal_attributes_label.sz
+        return self.nominal_attributes_label.num_items
 
     def num_instances(self):
         return self.label_data.size
@@ -39,11 +38,11 @@ class Instances:
         return len(self.nominal_indexes) - 1
 
     def __init__(self, _data, _meta):
-        self.meta = _meta
         self.data = _data
+        self.meta = _meta
 
-        self.label_index = len(_meta.names()) - 1
-        self.label_name = _meta.names()[self.label_index]
+        # self.label_index = len(_meta.names()) - 1
+        # self.label_name = _meta.names()[self.label_index]
 
         (self.nominal_indexes,
          self.nominal_names,
@@ -70,7 +69,7 @@ class Instances:
 
         self.label_data_str = self.nominal_data_str[-1]
         self.label_data = self.nominal_data[-1]
-        _, self.unique_labels = np.unique(self.label_data, return_counts=True)
+        # _, self.unique_labels = np.unique(self.label_data, return_counts=True)
 
     # def num_lines(self):
     #     return self.label_data.size
@@ -82,5 +81,12 @@ class Instances:
                           ])
 
     def num_values_in_att(self):
-        n = [att.sz for att in self.nominal_attributes]
+        n = [att.num_items for att in self.nominal_attributes]
         return np.array(n)
+
+    def lines_of_item_label(self,
+                            att, item, labels,
+                            intersect_lines=None):
+        return np.intersect1d(
+            np.where(self.nominal_data[attIndex], itemIndex)
+        )

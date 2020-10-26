@@ -1,11 +1,7 @@
-from log_settings import lg
+# from log_settings import lg
 import numpy as np
 
-
-def sliding_window(a, window):
-    shape = a.shape[:-1] + (a.shape[-1] - window + 1, window)
-    strides = a.strides + (a.strides[-1],)
-    return np.lib.stride_tricks.as_strided(a, shape=shape, strides=strides)
+from medri.m_utils import sliding_window
 
 
 class CumIndices:
@@ -29,9 +25,7 @@ class CumIndices:
 
     def atts_lines(self):
         base = np.array(list(self.__base) + [sum(self.indices)])
-        # lg.debug(f'base ba = {base}')
         sw = sliding_window(base, 2)
-        # lg.debug(f'sw = {sw}')
         result = []
         for i in sw:
             rng = np.arange(start=i[0], stop=i[1])
@@ -42,4 +36,3 @@ class CumIndices:
         return f'CumIndices({self.indices})\n' \
                f'\t\tbase = {self.__base}\n' \
                f'\t\tidx = {self.__cidx}\n'
-
