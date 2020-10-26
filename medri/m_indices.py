@@ -1,14 +1,19 @@
+from log_settings import lg
 import numpy as np
+
+
+def sliding_window(a, window):
+    shape = a.shape[:-1] + (a.shape[-1] - window + 1, window)
+    strides = a.strides + (a.strides[-1],)
+    return np.lib.stride_tricks.as_strided(a, shape=shape, strides=strides)
 
 
 class CumIndices:
     def __init__(self, indices):
+        self.indices = np.array(indices)
         idx_sum = np.cumsum(indices)
         self.__base = np.array([0] + list(idx_sum[:-1]))
-        # print(f'base = {self.__base}')
-
         self.__cidx = idx_sum - 1
-        # print(f'cidx = {self.__cidx}')
 
     def att(self, idx):
         return np.searchsorted(self.__cidx, idx)
@@ -22,9 +27,19 @@ class CumIndices:
         item = idx - self.__base[att]
         return att, item
 
+    def atts_lines(self):
+        base = np.array(list(self.__base) + [sum(self.indices)])
+        # lg.debug(f'base ba = {base}')
+        sw = sliding_window(base, 2)
+        # lg.debug(f'sw = {sw}')
+        result = []
+        for i in sw:
+            rng = np.arange(start=i[0], stop=i[1])
+            result.append(rng)
+        return result
 
-if __name__ == '__main__':
-    a = [5, 3, 4]
-    cs = CumIndices(a)
-    for i in range(sum(a)):
-        print(i, cs.att_item(i))
+    def __repr__(self):
+        return f'CumIndices({self.indices})\n' \
+               f'\t\tbase = {self.__base}\n' \
+               f'\t\tidx = {self.__cidx}\n'
+

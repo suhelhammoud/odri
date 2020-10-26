@@ -1,11 +1,12 @@
 import numpy as np
 from medri.utils import *
 from medri.m_instances import Instances
-
+from log_settings import lg
 
 
 
 if __name__ == '__main__':
+    lg.debug('wwwwwwwwwwwwwww')
     filename = 'data/contact-lenses.arff'
     data, meta = loadarff(filename)
     # #

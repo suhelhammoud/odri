@@ -1,4 +1,4 @@
-import logging as lg
+from log_settings import lg
 import numpy as np
 from numpy import linalg as LA
 # from medri.utils import *
@@ -10,10 +10,6 @@ import matplotlib.pyplot as plt
 from medri.m_attribute import MAttribute
 from medri.m_counter import MCounter
 from medri.m_instances import Instances
-
-FORMAT = "[%(lineno)s -%(funcName) 10s()] -> %(message)s"
-
-lg.basicConfig(format=FORMAT, level=lg.DEBUG)
 
 
 def labels_of_item(lines, all_labels, num_labels):
@@ -76,9 +72,9 @@ def labels_in_att(
     return item, item_labels  # , item_lines
 
 
-def att_items_labels(inst,
-                     available_atts,
-                     available_lines=None):
+def count_atts_items_labels(inst,
+                            available_atts,
+                            available_lines=None):
     all_labels = inst.label_data
     num_lables = inst.num_labels()
     if available_lines is None:
@@ -97,20 +93,24 @@ def att_items_labels(inst,
             all_labels=all_labels,
             num_labels=num_lables,
             prune_items=False)
-        lg.debug(f'itemIndex = {att_index}')
-        lg.debug(f'item={item}')
-        lg.debug(f'item_labels=\n{item_labels}')
+        # lg.debug(f'itemIndex = {att_index}')
+        # lg.debug(f'item={item}')
+        # lg.debug(f'item_labels=\n{item_labels}')
         # lg.debug(f'item_lines={item_lines}')
 
-        # r_att_index.append([att_index]*len(item))
-        r_att_index.append(att_index)
+        # r_att_index.append(att_index)
+        # r_att_index.append(att_index)
+        r_att_index.append([att_index] * len(item))
         r_item.append(item)
         r_labels.append(item_labels)
 
     # return np.concatenate(r_att_index), \
     #        np.concatenate(r_item), \
     #        np.vstack(r_labels)
-    return r_att_index, r_item, r_labels
+    return MCounter(r_att_index,
+                    r_item,
+                    r_labels)
+    # return r_att_index, r_item, r_labels
 
 
 if __name__ == '__main__':
@@ -124,13 +124,15 @@ if __name__ == '__main__':
     available_lines = np.arange(inst.num_instances())
     # available_atts = np.array(range(inst.num_nominal_atts()))
     available_atts = np.array([0, 3, 1])
-    m_counter = MCounter(inst.unique_labels, inst.num_values_in_att()[available_atts])
+    # m_counter = MCounter(inst.unique_labels, inst.num_values_in_att()[available_atts])
 
-    m_counter += att_items_labels(
-        inst,
-        available_atts,
-        available_lines)
+    m_counter = count_atts_items_labels(inst,
+                                        available_atts,
+                                        available_lines)
 
+    lg.info(m_counter)
+
+    print(m_counter)
     print('end')
     print(m_counter)
     print(m_counter.mutual_info())
