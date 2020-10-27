@@ -1,3 +1,4 @@
+from log_settings import lg
 import numpy as np
 
 from medri.m_attribute import MAttribute
@@ -13,6 +14,27 @@ def sliding_window(a, window):
 def bin_count_labels(lst_lines, all_labels, num_labels):
     return np.array([np.bincount(all_labels[lines], minlength=num_labels)
                      for lines in lst_lines], dtype=int)
+
+
+def labels_in_att2(
+        att: np.array,
+        all_labels,
+        num_labels,
+        num_items,
+        lines=None,
+        prune_items=True
+):
+    items_indexes = np.where(att != MAttribute.MISSING)[0] \
+        if lines is None else lines
+
+    if prune_items:
+        items_indexes = items_indexes[att[items_indexes] != MAttribute.MISSING]
+
+    labels2 = att[items_indexes] * num_labels + all_labels[items_indexes]
+    result = np.array(np.split(
+        np.bincount(labels2, minlength=num_labels * num_items),
+        num_items))
+    return np.arange(num_items), result
 
 
 def labels_in_att(
@@ -72,13 +94,22 @@ def count_atts_items_labels(inst,
     r_item = []
     r_labels = []
 
+    num_items = inst.num_items
     for att_index in available_atts:
         att = inst.nominal_data[att_index]
-        item, item_labels = labels_in_att(
+        # item, item_labels = labels_in_att(
+        #     att=att,
+        #     lines=available_lines,
+        #     all_labels=inst.label_data,
+        #     num_labels=inst.num_items_label,
+        #     prune_items=False)
+
+        item, item_labels = labels_in_att2(
             att=att,
             lines=available_lines,
             all_labels=inst.label_data,
             num_labels=inst.num_items_label,
+            num_items=num_items[att_index],
             prune_items=False)
         r_att_index.append([att_index] * len(item))
         r_item.append(item)
