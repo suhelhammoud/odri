@@ -20,29 +20,9 @@ class Instances:
     Wrapper for MetaData and Data objects retrieved by loadarff
     """
 
-    def _get_nominal_headers(self):
-        _nominal_attributes = [(name, self.meta[name]) for name in self.nominal_names]
-        return np.array([MAttribute(n, a) for n, a in _nominal_attributes])
-
-    def num_labels(self):
-        return self.nominal_attributes_label.num_items
-
-    def num_instances(self):
-        return self.label_data.size
-
-    def num_nominal_atts(self):
-        """
-
-        :return: number of nominal attributes that does not include the label attribute
-        """
-        return len(self.nominal_indexes) - 1
-
     def __init__(self, _data, _meta):
         self.data = _data
         self.meta = _meta
-
-        # self.label_index = len(_meta.names()) - 1
-        # self.label_name = _meta.names()[self.label_index]
 
         (self.nominal_indexes,
          self.nominal_names,
@@ -52,6 +32,8 @@ class Instances:
         _nominal_attributes = [(name, _meta[name]) for name in self.nominal_names]
         self.nominal_attributes = np.array([MAttribute(n, a) for n, a in _nominal_attributes])
         self.nominal_attributes_label = self.nominal_attributes[-1]
+        self.num_items = np.array([att.num_items for att in self.nominal_attributes])
+        self.num_items_label = self.nominal_attributes_label.num_items
 
         self.nominal_data_str = np.array(
             [[line[i] for i in self.nominal_indexes] for line in _data],
@@ -69,24 +51,28 @@ class Instances:
 
         self.label_data_str = self.nominal_data_str[-1]
         self.label_data = self.nominal_data[-1]
-        # _, self.unique_labels = np.unique(self.label_data, return_counts=True)
-
-    # def num_lines(self):
-    #     return self.label_data.size
+        self.num_lines = len(self.label_data)  # self.label_data.size
 
     def __repr__(self):
         return '\n'.join([f'Instances: \tnum_nominal={self.nominal_names.size}',
                           f'\tnum_numeric={self.numeric_names.size}',
-                          f'\tnum_instances={self.label_data.size}'
+                          f'\tnum_instances={self.num_lines}'
                           ])
 
-    def num_values_in_att(self):
-        n = [att.num_items for att in self.nominal_attributes]
-        return np.array(n)
+    def _get_nominal_headers(self):
+        _nominal_attributes = [(name, self.meta[name]) for name in self.nominal_names]
+        return np.array([MAttribute(n, a) for n, a in _nominal_attributes])
 
-    def lines_of_item_label(self,
-                            att, item, labels,
-                            intersect_lines=None):
-        return np.intersect1d(
-            np.where(self.nominal_data[attIndex], itemIndex)
-        )
+    #
+    # def num_labels(self):
+    #     return self.nominal_attributes_label.num_items
+
+    def num_instances(self):
+        return self.label_data.size
+
+    def num_nominal_atts(self):
+        """
+        :return: number of nominal attributes that does
+        not include the label attribute
+        """
+        return len(self.nominal_indexes) - 1

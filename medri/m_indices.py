@@ -1,7 +1,6 @@
 # from log_settings import lg
 import numpy as np
 
-from medri.m_utils import sliding_window
 
 
 class CumIndices:
@@ -24,6 +23,8 @@ class CumIndices:
         return att, item
 
     def atts_lines(self):
+        from medri.m_utils import sliding_window
+
         base = np.array(list(self.__base) + [sum(self.indices)])
         sw = sliding_window(base, 2)
         result = []

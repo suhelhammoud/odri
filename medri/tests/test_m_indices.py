@@ -12,6 +12,7 @@ class TestCumIndices(TestCase):
         np.testing.assert_array_equal(att_lines[1], np.array([5, 6, 7]))
         np.testing.assert_array_equal(att_lines[2], np.array([8, 9, 10, 11]))
 
+
     def test_att(self):
         indx = [5, 3, 4]
         cs = CumIndices(indx)

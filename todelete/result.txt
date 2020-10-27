@@ -1,0 +1,72 @@
+/home/suhel/PycharmProjects/temp02/venv/bin/python /home/suhel/PycharmProjects/temp02/medri/m_utilities.py
+[8 -  <module>()] -> Starting
+[14 -  <module>()] -> inst = Instances: 	num_nominal=5
+	num_numeric=0
+	num_instances=24
+[24 -  <module>()] -> Counter :
+	c_index = CumIndices([3 2 2])
+		base = [0 3 5]
+		idx = [2 4 6]
+
+	atts_indexes = [0 0 0 3 3 1 1]
+	att_items = [0 1 2 0 1 0 1]
+	item_labels = [[ 2  1  4]
+ [ 2  2  5]
+ [ 1  1  6]
+ [ 0  0 12]
+ [ 5  4  3]
+ [ 2  3  7]
+ [ 3  1  8]]
+[42 -mutual_info()] -> labels_entropy = [1.32608753 1.32608753 1.32608753]
+[44 -mutual_info()] -> att_lines = [array([0, 1, 2]), array([3, 4]), array([5, 6])]
+[48 -mutual_info()] -> aline = [0 1 2], item_lables = [[2 1 4]
+ [2 2 5]
+ [1 1 6]]
+[48 -mutual_info()] -> aline = [3 4], item_lables = [[ 0  0 12]
+ [ 5  4  3]]
+[48 -mutual_info()] -> aline = [5 6], item_lables = [[2 3 7]
+ [3 1 8]]
+[51 -mutual_info()] -> att_label = [array([7, 9, 8]), array([12, 12]), array([12, 12])]
+[53 -mutual_info()] -> att_entrop = [1.577428772913488, 1.0, 1.0]
+[55 -mutual_info()] -> j_entropy = [2.8716535224393334, 1.7772925846688998, 2.2865766899407327]
+[57 -mutual_info()] -> result = [0.03186278 0.54879494 0.03951084]
+[79 -best_att_item_label()] -> passed = [False False False False False False False]
+[86 -best_att_item_label()] -> b_att=1, b_item=0, b_label=2
+[87 -best_att_item_label()] -> self.att_items = [0 1 2 0 1 0 1]
+Counter :
+	c_index = CumIndices([3 2 2])
+		base = [0 3 5]
+		idx = [2 4 6]
+
+	atts_indexes = [0 0 0 3 3 1 1]
+	att_items = [0 1 2 0 1 0 1]
+	item_labels = [[ 2  1  4]
+ [ 2  2  5]
+ [ 1  1  6]
+ [ 0  0 12]
+ [ 5  4  3]
+ [ 2  3  7]
+ [ 3  1  8]]
+end
+Counter :
+	c_index = CumIndices([3 2 2])
+		base = [0 3 5]
+		idx = [2 4 6]
+
+	atts_indexes = [0 0 0 3 3 1 1]
+	att_items = [0 1 2 0 1 0 1]
+	item_labels = [[ 2  1  4]
+ [ 2  2  5]
+ [ 1  1  6]
+ [ 0  0 12]
+ [ 5  4  3]
+ [ 2  3  7]
+ [ 3  1  8]]
+[0.03186278 0.54879494 0.03951084]
+not passed indexes = (array([], dtype=int64),)
+ranks = [1.37878352e+00 1.43552052e+00 1.06127814e+00 8.33333333e-09
+ 1.55458519e+00 1.38443152e+00 1.18872189e+00]
+not passed indexes = (array([], dtype=int64),)
+best att, item, label = (1, 0, 2)
+
+Process finished with exit code 0
