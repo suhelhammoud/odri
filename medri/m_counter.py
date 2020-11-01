@@ -86,3 +86,6 @@ class MCounter:
         lg.debug(f'b_att={b_att}, b_item={b_item}, b_label={b_label}')
         lg.debug(f'self.att_items = {self.att_items}')
         return b_att, b_item, b_label
+
+
+#np.where(v.sum(axis=1) > 0, entropy(v, axis=1, base=2), 7777 )
