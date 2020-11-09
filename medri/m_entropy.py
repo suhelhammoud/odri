@@ -11,6 +11,22 @@ def measure_weighted(a, w=None):
     return np.where(np.isnan(e), 0, max_ent - e)
 
 
+def entsuhel(a: list):
+    max = math.log2(len(a))
+    print(f'max entropy = {max}')
+    w = sum(a)
+    if w == 0:
+        return 0
+    b = [(i + 0.0) / w for i in a]
+    result = 0
+    for i in b:
+        if i < 1e-8:
+            continue
+        result -= i * math.log2(i)
+    print(f'entropy = {result}')
+    return max-result
+
+
 if __name__ == '__main__':
     a = np.array([[8, 4, 2, 2],
                   [0, 0, 1, 20],
@@ -19,8 +35,6 @@ if __name__ == '__main__':
                   [0, 0, 0, 1],
                   [8, 8, 8, 7],
                   [0, 0, 0, 0]])
-
-    r = e2(a)
 
     print(f'result = {r}')
     sm = np.sum(a, axis=1)

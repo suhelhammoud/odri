@@ -53,6 +53,12 @@ class Instances:
         self.label_data = self.nominal_data[-1]
         self.num_lines = len(self.label_data)  # self.label_data.size
 
+    def all_lines(self):
+        return np.arange(self.num_lines)
+
+    def all_nominal_attributes(self):
+        return list(range(self.num_nominal_atts()))
+
     def __repr__(self):
         return '\n'.join([f'Instances: \tnum_nominal={self.nominal_names.size}',
                           f'\tnum_numeric={self.numeric_names.size}',
