@@ -331,7 +331,8 @@ def get_one_rule(inst: Instances,
 
         # if m_rule.rank >= t_max.rank:  # can not enhance rank
         lg.debug(f'new t_max = {t_max}')
-        if m_rule.is_better_than(t_max):
+        if m_rule.rank > t_max.rank:
+        # if m_rule.is_better_than(t_max): # TODO suhel
             lg.debug(f'm_rule is better than t_max')
             return m_rule, entry_lines, 0
 
