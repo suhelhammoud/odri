@@ -1,10 +1,7 @@
-# Last Change: Mon Aug 20 08:00 PM 2007 J
 import re
 import datetime
 from collections import OrderedDict
-
 import numpy as np
-
 import csv
 import ctypes
 
@@ -47,6 +44,7 @@ r_comattrval = re.compile(r"'(..+)'\s+(..+$)")
 # To get normal attributes
 r_wcomattrval = re.compile(r"(\S+)\s+(..+$)")
 
+
 # ------------------------
 # Module defined exception
 # ------------------------
@@ -64,7 +62,6 @@ class ParseArffError(ArffError):
 # Attributes
 # ----------
 class Attribute(object):
-
     type_name = None
 
     def __init__(self, name):
@@ -94,7 +91,6 @@ class Attribute(object):
 
 
 class NominalAttribute(Attribute):
-
     type_name = 'nominal'
 
     def __init__(self, name, values):
@@ -161,7 +157,7 @@ class NominalAttribute(Attribute):
 
     def __str__(self):
         msg = self.name + ",{"
-        for i in range(len(self.values)-1):
+        for i in range(len(self.values) - 1):
             msg += self.values[i] + ","
         msg += self.values[-1]
         msg += "}"
@@ -187,9 +183,9 @@ class NumericAttribute(Attribute):
 
         attr_string = attr_string.lower().strip()
 
-        if(attr_string[:len('numeric')] == 'numeric' or
-           attr_string[:len('int')] == 'int' or
-           attr_string[:len('real')] == 'real'):
+        if (attr_string[:len('numeric')] == 'numeric' or
+                attr_string[:len('int')] == 'int' or
+                attr_string[:len('real')] == 'real'):
             return cls(name)
         else:
             return None
@@ -677,6 +673,7 @@ class MetaData(object):
     meta, where meta is an instance of MetaData, will return the
     different attribute names in the order they were defined.
     """
+
     def __init__(self, rel, attr):
         self.name = rel
 
@@ -692,7 +689,6 @@ class MetaData(object):
                 msg += ", range is %s" % str(self._attributes[i].range)
             msg += '\n'
         return msg
-
 
     def __iter__(self):
         return iter(self._attributes)
@@ -899,8 +895,8 @@ def test_weka(filename):
 # make sure nose does not find this as a test
 test_weka.__test__ = False
 
-
 if __name__ == '__main__':
     import sys
+
     filename = sys.argv[1]
     test_weka(filename)

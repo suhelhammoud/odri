@@ -1,10 +1,9 @@
-from log_settings import lg
 import numpy as np
 import sys
-from m_max_finder import MaxFinder
 
 
 class MRule:
+    # TODO merge with MaxFinder.
     def __init__(self, label):
         self.__label = label
         self.rank = - sys.maxsize
@@ -17,11 +16,11 @@ class MRule:
     def __len__(self):
         return len(self.att_indexes)
 
-    def containts_att(self, att_index):
+    def contains_att(self, att_index):
         return att_index in self.att_indexes
 
     def add_test(self, att_index, item):
-        if self.containts_att(att_index):
+        if self.contains_att(att_index):
             return False
         self.att_indexes.append(att_index)
         self.att_values.append(item)

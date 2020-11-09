@@ -2,7 +2,6 @@
 import numpy as np
 
 
-
 class CumIndices:
     def __init__(self, indices):
         self.indices = np.array(indices)
@@ -23,7 +22,7 @@ class CumIndices:
         return att, item
 
     def atts_lines(self):
-        from medri.m_utils import sliding_window
+        from odri.m_utils import sliding_window
 
         base = np.array(list(self.__base) + [sum(self.indices)])
         sw = sliding_window(base, 2)

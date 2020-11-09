@@ -1,10 +1,8 @@
 from log_settings import lg
 import numpy as np
 from numpy import linalg as LA
-
 from scipy.stats import entropy
-
-from medri.m_indices import CumIndices
+from odri.m_indices import CumIndices
 
 
 def v_entropy(labels: np.array):
@@ -12,6 +10,9 @@ def v_entropy(labels: np.array):
     p_normalized = labels / n.T
     result = entropy(p_normalized, base=2)
     return result
+
+
+# TODO not used anymore, consider deleting all file
 
 
 class MCounter:
@@ -87,5 +88,4 @@ class MCounter:
         lg.debug(f'self.att_items = {self.att_items}')
         return b_att, b_item, b_label
 
-
-#np.where(v.sum(axis=1) > 0, entropy(v, axis=1, base=2), 7777 )
+# np.where(v.sum(axis=1) > 0, entropy(v, axis=1, base=2), 7777 )

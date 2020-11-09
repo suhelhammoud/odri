@@ -1,8 +1,6 @@
 import numpy as np
 
 
-# from log_settings import lg
-
 class MAttribute:
     MISSING = -1
 

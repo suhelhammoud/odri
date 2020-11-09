@@ -2,13 +2,12 @@ import math
 from scipy.stats import entropy
 from log_settings import lg
 import numpy as np
-from medri.arffreader import loadarff
-from medri.m_attribute import MAttribute
-from medri.m_counter import MCounter
-from medri.m_instances import Instances
-from medri.m_max_finder import MaxFinder
-from medri.m_params import MParam
-from medri.m_rule import MRule
+from odri.arffreader import loadarff
+from odri.m_attribute import MAttribute
+from odri.m_instances import Instances
+from odri.m_max_finder import MaxFinder
+from odri.m_params import MParam
+from odri.m_rule import MRule
 
 
 def sliding_window(a, window):
@@ -409,18 +408,4 @@ def test_classifier():
 
 
 if __name__ == '__main__':
-    filename = '../data/contact-lenses.arff'
-    filename = '../data/tic-tac-toe.arff'
-    # filename = '../data/cl.arff'
-    lg.debug(f'Starting with file name = {filename}')
-    data, meta = loadarff(filename)
-    # #
-    inst = Instances(*loadarff(filename))
-    lg.debug(f'inst num_lines = {inst.num_lines}')
-    lg.debug(f'inst num_items = {inst.num_items}')
-
-    params = MParam()
-    rules = build_classifier(inst, params=params, add_default_rule=True)
-    for i, rule in enumerate(rules):
-        print(f'{i} -> rule = {rule}')
-    lg.debug('end of application')
+    pass

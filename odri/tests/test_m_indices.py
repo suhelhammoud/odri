@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from medri.m_indices import CumIndices
+from odri.m_indices import CumIndices
 import numpy as np
 
 

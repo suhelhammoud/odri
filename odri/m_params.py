@@ -3,7 +3,6 @@ import numpy as np
 
 
 class MParam:
-
     def __init__(self):
         self.labels_weights = np.array([1])
         self.items_weights = np.array([1])
@@ -14,7 +13,7 @@ class MParam:
         try:
             return self.items_weights[att_index]
         except Exception:
-            # lg.debug(f'get_att_w({att_index})')
+            lg.error(f'get_att_w({att_index})')
             return None
 
     def __repr__(self):

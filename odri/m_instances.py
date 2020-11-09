@@ -1,5 +1,5 @@
 import numpy as np
-from medri.m_attribute import MAttribute
+from odri.m_attribute import MAttribute
 
 
 def _nominal_numeric(_meta):
@@ -52,7 +52,6 @@ class Instances:
         self.label_data_str = self.nominal_data_str[-1]
         self.label_data = self.nominal_data[-1]
         self.num_lines = len(self.label_data)  # self.label_data.size
-
 
     def all_lines(self):
         return np.arange(self.num_lines)

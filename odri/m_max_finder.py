@@ -1,11 +1,8 @@
 import sys
-
-from log_settings import lg
 import numpy as np
 
 
 class MaxFinder:
-
     def __init__(self,
                  rank=-sys.maxsize,
                  att_index=None,
@@ -15,7 +12,7 @@ class MaxFinder:
         self.att_index = att_index
         self.item_index = item_index
         self.label_index = label_index
-        # From MRule
+        # From MRule # TODO reduce properties
         # self.__label_index = label_index
         self.att_indexes = []
         self.att_values = []
@@ -48,11 +45,11 @@ class MaxFinder:
     def __len__(self):
         return len(self.att_indexes)
 
-    def containts_att(self, att_index):
+    def contains_att(self, att_index):
         return att_index in self.att_indexes
 
     def add_test(self, att_index=None, item=None):
-        if self.containts_att(att_index):
+        if self.contains_att(att_index):
             return False
         if att_index is None:
             self.att_indexes.append(self.att_index)
