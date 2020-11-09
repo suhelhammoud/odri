@@ -53,6 +53,7 @@ class Instances:
         self.label_data = self.nominal_data[-1]
         self.num_lines = len(self.label_data)  # self.label_data.size
 
+
     def all_lines(self):
         return np.arange(self.num_lines)
 

@@ -96,7 +96,6 @@ def labels_in_att(
     return item, item_labels  # TODO consider returning , item_lines #
 
 
-
 def best_item_label_in_att(
         att: np.array,
         all_labels,
@@ -118,16 +117,26 @@ def best_item_label_in_att(
     return np.arange(num_items), result
 
 
-def measure_weighted(a, params: MParam = None):
+def measure_weighted(a,
+                     max_label=None,
+                     params: MParam = None):
     labels_weight = np.array([1]) if params is None else params.labels_weights
     items_weights = np.array([1]) if params is None else params.items_weights
     min_occ = 1 if params is None else params.min_occ
 
     max_ent = math.log2(a.shape[1])
     a = weight_labels(a, labels_weight, items_weights)
+    if max_label is not None:
+        lindx = np.argmax(a, axis=1) != max_label
+    else:
+        lindx = np.array([False])
+
     occ = np.sum(a, axis=1)
     e = entropy(a, base=2, axis=1)
-    return np.where(np.isnan(e) | (occ < min_occ), 0, max_ent - e)
+    return np.where(np.isnan(e)
+                    | (occ < min_occ)
+                    | lindx,
+                    0, max_ent - e)
 
 
 def weight_labels(lbl, l_w=np.array([1]), i_w=np.array([1])):
@@ -150,7 +159,7 @@ def get_max_finder(label_count,
                    att_index,
                    max_label=None,
                    params: MParam = None):
-    ranks = measure_weighted(label_count, params)
+    ranks = measure_weighted(label_count, max_label, params)
     rank = np.amax(ranks)
     max_indices = np.where(ranks == rank)[0]
     max_sums = np.sum(label_count[max_indices], axis=1)
@@ -263,8 +272,8 @@ def count_step(inst: Instances,
             num_labels=inst.num_items_label,
             num_items=inst.num_items[att_index],
             lines=available_lines)
-        lg.debug(f'att_index = {att_index}')
-        lg.debug(f'labels_count =\n\t {labels_count}')
+        # lg.debug(f'att_index = {att_index}')
+        # lg.debug(f'labels_count =\n\t {labels_count}')
         # apply weights ?
         t_max = get_max_finder(labels_count,
                                att_index,
@@ -291,7 +300,9 @@ def get_one_rule(inst: Instances,
     :param params: MParam
     :return: tuple(MRule, item_lines, covered)
     """
-    lg.debug(f'start with available_atts ={available_atts}')
+    # lg.debug(f'start with available_lines ={available_lines}')
+    # lg.debug(f' data =\n {inst.nominal_data.T[available_lines]}')
+    # lg.debug(f' data =\n {inst.data[available_lines]}')
     if len(available_lines) < params.min_occ:
         return None, available_lines, 0
 
@@ -397,8 +408,9 @@ def test_classifier():
 
 
 if __name__ == '__main__':
-    # filename = '../data/contact-lenses.arff'
-    filename = '../data/cl.arff'
+    filename = '../data/contact-lenses.arff'
+    filename = '../data/tic-tac-toe.arff'
+    # filename = '../data/cl.arff'
     lg.debug(f'Starting with file name = {filename}')
     data, meta = loadarff(filename)
     # #
